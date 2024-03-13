@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, Boolean, DateTime
+from sqlalchemy import Column, Integer, MetaData
 from sqlalchemy.ext.asyncio import AsyncSession, create_async_engine
 from sqlalchemy.orm import declarative_base, declared_attr, sessionmaker
 
@@ -7,16 +7,19 @@ from app.core.config import settings
 
 class PreBase:
 
+    metadata = MetaData(naming_convention={
+        "ix": "ix_%(column_0_label)s",
+        "uq": "uq_%(table_name)s_%(column_0_name)s",
+        "ck": "ck_%(table_name)s_`%(constraint_name)s`",
+        "fk": "fk_%(table_name)s_%(column_0_name)s_%(referred_table_name)s",
+        "pk": "pk_%(table_name)s"
+    })
+
     @declared_attr
     def __tablename__(cls):
         return cls.__name__.lower()
 
     id = Column(Integer, primary_key=True)
-    full_amount = Column(Integer)
-    invested_amount = Column(Integer)
-    fully_invested = Column(Boolean)
-    create_date = Column(DateTime)
-    close_date = Column(DateTime)
 
 
 Base = declarative_base(cls=PreBase)
