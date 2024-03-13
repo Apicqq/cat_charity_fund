@@ -26,7 +26,7 @@ class CRUDBase:
         db_obj = await session.execute(select(self.model).where(
             self.model.id == obj_id
         ))
-        return db_obj.scalars().all()
+        return db_obj.scalars().first()
 
     async def get_all(
             self,
