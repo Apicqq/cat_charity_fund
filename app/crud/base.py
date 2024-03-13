@@ -1,4 +1,4 @@
-from typing import TypeVar, Optional, List
+from typing import TypeVar, Optional, List, Generic
 
 from fastapi.encoders import jsonable_encoder
 from pydantic import BaseModel
@@ -13,7 +13,7 @@ CreateSchemaType = TypeVar("CreateSchemaType", bound=BaseModel)
 UpdateSchemaType = TypeVar("UpdateSchemaType", bound=BaseModel)
 
 
-class CRUDBase:
+class CRUDBase(Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
 
     def __init__(self, model):
         self.model = model
