@@ -11,7 +11,11 @@ async def check_name_is_busy(
         name: str,
         session: AsyncSession
 ) -> None:
-    pass
+    project_id = await charity_crud.get_project_id_by_name(name, session)
+    if project_id is not None:
+        raise HTTPException(
+            HTTPStatus.BAD_REQUEST, "TO BE CHANGED LATER!"  # FIXME
+        )
 
 
 async def check_has_investment(project_id: int,

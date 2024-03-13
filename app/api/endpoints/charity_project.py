@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from app.api.validators import check_has_investment
+from app.api.validators import check_has_investment, check_name_is_busy
 from app.core.db import get_async_session
 from app.crud.charity_project import charity_crud
 from app.schemas.charity_project import CharityProjectDB, CharityProjectCreate
@@ -27,8 +27,10 @@ async def create_project(
         project: CharityProjectCreate,
         session: AsyncSession = Depends(get_async_session)
 ) -> CharityProjectDB:
-    """Superusers only."""
-    return await charity_crud.post(project, session)
+    """Superusers only."""  # FIXME ADD ACTUAL DOCSTRING AND DESCRIPTION
+    await check_name_is_busy(project.name, session)
+    new_project = await charity_crud.post(project, session)
+    return new_project
 
 
 @router.delete(
@@ -39,12 +41,12 @@ async def delete_project(
         project_id: int,
         session: AsyncSession = Depends(get_async_session)
 ) -> CharityProjectDB:
-    """Superusers only."""
+    """Superusers only."""  # FIXME ADD ACTUAL DOCSTRING AND DESCRIPTION
     project = await check_has_investment(project_id, session)
     return await charity_crud.delete(project, session)
 
 
 @router.patch("/{project_id}")
 async def update_project():
-    """Superusers only."""
+    """Superusers only."""  # FIXME ADD ACTUAL DOCSTRING AND DESCRIPTION
     pass
