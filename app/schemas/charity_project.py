@@ -11,7 +11,7 @@ class CharityProjectBase(BaseModel):
     description: str = Field(
         ..., min_length=1
     )
-    full_amount: Union[StrictInt, PositiveInt] = Field(...)
+    full_amount: PositiveInt = Field(...)
 
     class Config:
         extra = Extra.forbid
@@ -27,9 +27,9 @@ class CharityProjectUpdate(CharityProjectBase):
 
 class CharityProjectDB(CharityProjectBase):
     id: int
-    invested_amount: PositiveInt = Field(...)
-    fully_invested: bool = Field(...)
-    create_date: datetime = Field(...)
+    invested_amount: StrictInt
+    fully_invested: bool
+    create_date: datetime
     close_date: Optional[datetime]
 
     class Config:
