@@ -1,12 +1,19 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, Depends
+from sqlalchemy.ext.asyncio import AsyncSession
 
+from app.core.db import get_async_session
+from app.crud.charity_project import charity_crud
+from app.schemas.charity_project import CharityProjectDB
 
 router = APIRouter()
 
 
-@router.get("/")
-async def get_all_projects():
-    pass
+@router.get("/", response_model=list[CharityProjectDB])
+async def get_all_projects(
+        session: AsyncSession = Depends(get_async_session),
+):
+    projects = await charity_crud.get_all(session)
+    return projects
 
 
 @router.post("/")
