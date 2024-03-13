@@ -4,20 +4,15 @@ router = APIRouter()
 
 
 @router.get("/")
-async def get_all_projects():
+async def get_all_donations():
     pass
 
 
 @router.post("/")
-async def create_project():
+async def create_donation():
     pass
 
 
-@router.delete("/{project_id}")
-async def delete_project():
-    pass
-
-
-@router.patch("/{project_id}")
-async def update_project():
+@router.get("/my")
+async def get_own_donations():
     pass
