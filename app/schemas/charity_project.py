@@ -1,24 +1,36 @@
 from datetime import datetime
-from typing import Optional, Union
+from typing import Optional
 
 from pydantic import BaseModel, Extra, Field, StrictInt, PositiveInt
 
+from app.services.constants import SchemaConstants as Sc
+
 
 class CharityProjectBase(BaseModel):
-    name: str = Field(
-        ..., min_length=1, max_length=100
+    name: Optional[str] = Field(
+        None,
+        min_length=Sc.CHARITY_PROJ_FIELD_MIN_LENGTH,
+        max_length=Sc.CHARITY_PROJ_FIELD_MAX_LENGTH
     )
-    description: str = Field(
-        ..., min_length=1
+    description: Optional[str] = Field(
+        None, min_length=Sc.CHARITY_PROJ_FIELD_MIN_LENGTH
     )
-    full_amount: PositiveInt = Field(...)
+    full_amount: Optional[PositiveInt]
 
     class Config:
         extra = Extra.forbid
 
 
 class CharityProjectCreate(CharityProjectBase):
-    pass
+    name: str = Field(
+        ...,
+        min_length=Sc.CHARITY_PROJ_FIELD_MIN_LENGTH,
+        max_length=Sc.CHARITY_PROJ_FIELD_MAX_LENGTH
+    )
+    description: str = Field(
+        ..., min_length=Sc.CHARITY_PROJ_FIELD_MIN_LENGTH
+    )
+    full_amount: PositiveInt = Field(...)
 
 
 class CharityProjectUpdate(CharityProjectBase):

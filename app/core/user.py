@@ -14,6 +14,7 @@ from app.core.config import settings
 from app.core.db import get_async_session
 from app.models.user import User
 from app.schemas.user import UserCreate
+from app.services.constants import ErrConstants as Err
 
 bearer_transport = BearerTransport(tokenUrl="auth/jwt/login")
 
@@ -40,11 +41,11 @@ class UserManager(IntegerIDMixin, BaseUserManager[User, int]):
     ) -> None:
         if len(password) < 3:
             raise InvalidPasswordException(
-                reason="Password should be at least 3 characters"
+                reason=Err.PASSWORD_TOO_SHORT
             )
         if user.email in password:
             raise InvalidPasswordException(
-                reason="Password should not contain e-mail"
+                reason=Err.EMAIL_IN_PASSWORD
             )
 
     async def on_after_register(
