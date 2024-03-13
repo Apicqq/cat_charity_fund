@@ -1,6 +1,6 @@
 from typing import Optional
 
-from pydantic import BaseSettings
+from pydantic import BaseSettings, EmailStr
 
 
 class Settings(BaseSettings):
@@ -9,6 +9,8 @@ class Settings(BaseSettings):
                         "фонда поддержки котиков QRKot")
     database_url: str = "sqlite+aiosqlite:///./fastapi.db"
     secret: str = "VeryDamnSecretSecret"
+    first_superuser_email: Optional[EmailStr] = None
+    first_superuser_password: Optional[str] = None
 
     class Config:
         env_file = ".env"
