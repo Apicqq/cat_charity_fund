@@ -25,8 +25,7 @@ class DBConstants(IntEnum):
 class ConfigConstants(str, Enum):
     APP_TITLE = "QRKot"
     DESCRIPTION = (
-        "API для приложения Благотворительного "
-        "фонда поддержки котиков QRKot"
+        "API for the Charity application QRKot cat support fund."
     )
     DATABASE_URL = "sqlite+aiosqlite:///./fastapi.db"
     SECRET = "VeryDamnSecretSecret"
