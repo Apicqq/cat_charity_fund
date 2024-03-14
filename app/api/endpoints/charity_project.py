@@ -8,6 +8,7 @@ from app.core.user import current_superuser
 from app.crud.charity_project import charity_crud
 from app.schemas.charity_project import CharityProjectDB, CharityProjectCreate, \
     CharityProjectUpdate
+from app.models import CharityProject
 
 router = APIRouter()
 
@@ -28,7 +29,7 @@ async def get_all_projects(
 async def create_project(
         project: CharityProjectCreate,
         session: AsyncSession = Depends(get_async_session)
-) -> CharityProjectDB:
+) -> CharityProject:
     """Superusers only."""  # FIXME ADD ACTUAL DOCSTRING AND DESCRIPTION
     await check_name_is_busy(project.name, session)
     new_project = await charity_crud.post(project, session)
@@ -43,7 +44,7 @@ async def create_project(
 async def delete_project(
         project_id: int,
         session: AsyncSession = Depends(get_async_session)
-) -> CharityProjectDB:
+) -> CharityProject:
     """Superusers only."""  # FIXME ADD ACTUAL DOCSTRING AND DESCRIPTION
     project = await check_has_investment(project_id, session)
     return await charity_crud.delete(project, session)
@@ -58,7 +59,7 @@ async def update_project(
         project_id: int,
         obj_in: CharityProjectUpdate,
         session: AsyncSession = Depends(get_async_session)
-):
+) -> CharityProject:
     """Superusers only."""  # FIXME ADD ACTUAL DOCSTRING AND DESCRIPTION
     project = await check_eligible_for_patching(project_id, obj_in, session)
     project = await charity_crud.patch(project, obj_in, session)
