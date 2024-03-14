@@ -35,13 +35,17 @@ class CRUDBase(Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
         obj_in: CreateSchemaType,
         session: AsyncSession,
         user: Optional[User] = None,
+        skip_commit: bool = False,
     ) -> ModelType:
         obj_in_data = obj_in.dict()
         if user is not None:
             obj_in_data["user_id"] = user.id
         db_obj = self.model(**obj_in_data)
         session.add(db_obj)
-        return await self.push_to_db(db_obj, session)
+        if not skip_commit:
+            return await self.push_to_db(db_obj, session)
+        else:
+            pass
 
     @staticmethod
     async def delete(db_obj: ModelType, session: AsyncSession):
