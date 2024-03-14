@@ -29,5 +29,5 @@ class DonationDBFull(DonationDBShort):
 
     user_id: int
     invested_amount: StrictInt
-    fully_invested: bool
+    fully_invested: bool = False
     close_date: Optional[datetime]
