@@ -23,7 +23,7 @@ async def do_run_investments(
         the database operations.
     :returns: None
     """
-    receptions = await crud_class.get_not_closed_projects(session)
+    receptions = await crud_class.get_unclosed_objects(session)
     for reception in receptions:
         available_to_invest = obj_in.full_amount - obj_in.invested_amount
         if not available_to_invest:

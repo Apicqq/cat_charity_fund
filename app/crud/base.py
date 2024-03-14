@@ -71,7 +71,7 @@ class CRUDBase(Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
         await session.refresh(obj)
         return obj
 
-    async def get_not_closed_projects(
+    async def get_unclosed_objects(
         self, session: AsyncSession
     ) -> Union[List[ModelType], ModelType]:
         """
