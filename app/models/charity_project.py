@@ -11,4 +11,4 @@ class CharityProject(GenericFields):
     description = Column(Text, nullable=False)
 
     def __repr__(self):
-        return f"Charity project #{self.id}: {self.name}"
+        return super().__repr__()

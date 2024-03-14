@@ -17,9 +17,12 @@ class ErrConstants(str, Enum):
     EMAIL_IN_PASSWORD = "Password should not contain e-mail"
 
 
-class DBConstants(IntEnum):
+class DBConstants(Enum):
     INVESTED_AMOUNT_DEFAULT = 0
     CHARITY_PROJECT_NAME_DEFAULT = 100
+    INVESTMENT_CONSTRAINT = "Initial investment value must be greater than 0"
+    INVESTMENT_LT_FUL_AMOUNT_CONSTRAINT = ("Invested amount must be less "
+                                           "than or equal to full amount")
 
 
 class ConfigConstants(str, Enum):

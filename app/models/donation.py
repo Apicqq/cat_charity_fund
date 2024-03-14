@@ -8,4 +8,4 @@ class Donation(GenericFields):
     comment = Column(Text, nullable=True)
 
     def __repr__(self):
-        return f"Donation #{self.id} by {self.user_id}"
+        return super().__repr__()

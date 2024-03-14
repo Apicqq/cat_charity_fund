@@ -1,6 +1,6 @@
 from datetime import datetime
 
-from sqlalchemy import Column, Integer, Boolean, DateTime
+from sqlalchemy import Column, Integer, Boolean, DateTime, CheckConstraint
 
 from app.core.base import Base
 from app.services.constants import DBConstants as Db
@@ -14,3 +14,16 @@ class GenericFields(Base):
     fully_invested = Column(Boolean, default=False)
     create_date = Column(DateTime, default=datetime.now)
     close_date = Column(DateTime)
+
+    __table__args__ = (
+        CheckConstraint(
+            "full_amount > 0",
+            name=Db.INVESTMENT_CONSTRAINT),
+        CheckConstraint(
+            "invested_amount <= full_amount",
+            name=Db.INVESTMENT_LT_FUL_AMOUNT_CONSTRAINT
+        )
+    )
+
+    def __repr__(self):
+        return f"{self.__class__.__name__}, id={self.id}"
