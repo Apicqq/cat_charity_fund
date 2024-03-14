@@ -18,8 +18,8 @@ class DonationCreate(DonationBase):
 
 class DonationDBShort(DonationBase):
     id: int
-    full_amount: PositiveInt = Field(...)
-    create_date: datetime = Field(...)
+    full_amount: PositiveInt
+    create_date: datetime
 
     class Config:
         orm_mode = True
@@ -27,7 +27,7 @@ class DonationDBShort(DonationBase):
 
 class DonationDBFull(DonationDBShort):
 
-    user_id: int = Field(...)
-    invested_amount: StrictInt = Field(...)
-    fully_invested: bool = Field(...)
-    close_date: Optional[datetime] = Field(...)
+    user_id: int
+    invested_amount: StrictInt
+    fully_invested: bool
+    close_date: Optional[datetime]

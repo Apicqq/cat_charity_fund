@@ -28,7 +28,7 @@ class CharityProjectCreate(CharityProjectBase):
         max_length=Sc.CHARITY_PROJ_FIELD_MAX_LENGTH,
     )
     description: str = Field(..., min_length=Sc.CHARITY_PROJ_FIELD_MIN_LENGTH)
-    full_amount: PositiveInt = Field(...)
+    full_amount: PositiveInt
 
 
 class CharityProjectUpdate(CharityProjectBase):
