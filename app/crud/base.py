@@ -1,8 +1,8 @@
-from typing import TypeVar, Optional, List, Generic
+from typing import TypeVar, Optional, List, Generic, Union
 
 from fastapi.encoders import jsonable_encoder
 from pydantic import BaseModel
-from sqlalchemy import select
+from sqlalchemy import select, asc
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.core.db import Base
@@ -79,3 +79,12 @@ class CRUDBase(Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
         await session.commit()
         await session.refresh(obj)
         return obj
+
+    async def get_not_closed_projects(
+            self,
+            session: AsyncSession
+    ) -> Union[List[ModelType], ModelType]:
+        db_objs = await session.execute(select(self.model).where(
+            self.model.close_date.is_(None)).order_by(asc("create_date")
+                                                      ))
+        return db_objs.scalars().all()
