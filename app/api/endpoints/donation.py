@@ -41,7 +41,7 @@ async def create_donation(
     """
     Create a new donation. Available only for authenticated users.
     """
-    donation = await donation_crud.post(donation, session, user)
+    donation = await donation_crud.create(donation, session, user)
     await do_run_investments(donation, charity_crud, session)
     return donation
 

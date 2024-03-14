@@ -45,7 +45,7 @@ async def create_project(
     Create a new charity project. Available only to superusers.
     """
     await check_name_is_busy(project.name, session)
-    new_project = await charity_crud.post(project, session)
+    new_project = await charity_crud.create(project, session)
     await do_run_investments(new_project, donation_crud, session)
     return new_project
 

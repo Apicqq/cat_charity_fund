@@ -30,7 +30,7 @@ class CRUDBase(Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
         db_objs = await session.execute(select(self.model))
         return db_objs.scalars().all()
 
-    async def post(
+    async def create(
         self,
         obj_in: CreateSchemaType,
         session: AsyncSession,
