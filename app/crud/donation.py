@@ -16,13 +16,7 @@ class CRUDDonation(CRUDBase[
             user: User,
             session: AsyncSession
     ) -> list[Donation]:
-        """
-
-        :param user:
-        :param session:
-        :return:
-        # FIXME ADD ACTUAL DOCSTRING AND DESCRIPTION
-        """
+        """Retrieve list of donations made by user."""
         donations = await session.execute(
             select(Donation).where(Donation.user_id == user.id)
         )

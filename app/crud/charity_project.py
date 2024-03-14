@@ -20,6 +20,7 @@ class CRUDCharityProject(CRUDBase[
             proj_name: str,
             session: AsyncSession
     ) -> Optional[int]:
+        """Retrieve project ID by it's name."""
         project_id = await session.execute(
             select(CharityProject.id).where(
                 CharityProject.name == proj_name

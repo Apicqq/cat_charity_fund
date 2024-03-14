@@ -84,6 +84,10 @@ class CRUDBase(Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
             self,
             session: AsyncSession
     ) -> Union[List[ModelType], ModelType]:
+        """
+        Retrieve objects from the database doesn't have close date param set,
+        sorted by create date.
+        """
         db_objs = await session.execute(select(self.model).where(
             self.model.close_date.is_(None)).order_by(asc("create_date")
                                                       ))
