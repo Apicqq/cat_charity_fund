@@ -10,7 +10,7 @@ class CharityProjectBase(BaseModel):
     name: Optional[str] = Field(
         None,
         min_length=Sc.CHARITY_PROJ_FIELD_MIN_LENGTH,
-        max_length=Sc.CHARITY_PROJ_FIELD_MAX_LENGTH
+        max_length=Sc.CHARITY_PROJ_FIELD_MAX_LENGTH,
     )
     description: Optional[str] = Field(
         None, min_length=Sc.CHARITY_PROJ_FIELD_MIN_LENGTH
@@ -25,11 +25,9 @@ class CharityProjectCreate(CharityProjectBase):
     name: str = Field(
         ...,
         min_length=Sc.CHARITY_PROJ_FIELD_MIN_LENGTH,
-        max_length=Sc.CHARITY_PROJ_FIELD_MAX_LENGTH
+        max_length=Sc.CHARITY_PROJ_FIELD_MAX_LENGTH,
     )
-    description: str = Field(
-        ..., min_length=Sc.CHARITY_PROJ_FIELD_MIN_LENGTH
-    )
+    description: str = Field(..., min_length=Sc.CHARITY_PROJ_FIELD_MIN_LENGTH)
     full_amount: PositiveInt = Field(...)
 
 

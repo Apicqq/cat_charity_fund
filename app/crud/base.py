@@ -19,27 +19,22 @@ class CRUDBase(Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
         self.model = model
 
     async def get(
-            self,
-            obj_id: int,
-            session: AsyncSession
+        self, obj_id: int, session: AsyncSession
     ) -> Optional[ModelType]:
-        db_obj = await session.execute(select(self.model).where(
-            self.model.id == obj_id
-        ))
+        db_obj = await session.execute(
+            select(self.model).where(self.model.id == obj_id)
+        )
         return db_obj.scalars().first()
 
-    async def get_all(
-            self,
-            session: AsyncSession
-    ) -> List[ModelType]:
+    async def get_all(self, session: AsyncSession) -> List[ModelType]:
         db_objs = await session.execute(select(self.model))
         return db_objs.scalars().all()
 
     async def post(
-            self,
-            obj_in: CreateSchemaType,
-            session: AsyncSession,
-            user: Optional[User] = None
+        self,
+        obj_in: CreateSchemaType,
+        session: AsyncSession,
+        user: Optional[User] = None,
     ) -> ModelType:
         obj_in_data = obj_in.dict()
         if user is not None:
@@ -49,19 +44,14 @@ class CRUDBase(Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
         return await self.push_to_db(db_obj, session)
 
     @staticmethod
-    async def delete(
-            db_obj: ModelType,
-            session: AsyncSession
-    ):
+    async def delete(db_obj: ModelType, session: AsyncSession):
         await session.delete(db_obj)
         await session.commit()
         return db_obj
 
     @staticmethod
     async def patch(
-            db_obj: ModelType,
-            obj_in: UpdateSchemaType,
-            session: AsyncSession
+        db_obj: ModelType, obj_in: UpdateSchemaType, session: AsyncSession
     ) -> ModelType:
         obj_data = jsonable_encoder(db_obj)
         update_data = obj_in.dict(exclude_unset=True)
@@ -72,23 +62,21 @@ class CRUDBase(Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
         return await CRUDBase.push_to_db(db_obj, session)
 
     @staticmethod
-    async def push_to_db(
-            obj: Base,
-            session: AsyncSession
-    ) -> ModelType:
+    async def push_to_db(obj: Base, session: AsyncSession) -> ModelType:
         await session.commit()
         await session.refresh(obj)
         return obj
 
     async def get_not_closed_projects(
-            self,
-            session: AsyncSession
+        self, session: AsyncSession
     ) -> Union[List[ModelType], ModelType]:
         """
         Retrieve objects from the database doesn't have close date param set,
         sorted by create date.
         """
-        db_objs = await session.execute(select(self.model).where(
-            self.model.close_date.is_(None)).order_by(asc("create_date")
-                                                      ))
+        db_objs = await session.execute(
+            select(self.model)
+            .where(self.model.close_date.is_(None))
+            .order_by(asc("create_date"))
+        )
         return db_objs.scalars().all()

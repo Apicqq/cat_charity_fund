@@ -5,8 +5,11 @@ from app.core.db import get_async_session
 from app.core.user import current_user, current_superuser
 from app.crud import donation_crud, charity_crud
 from app.models import Donation, User
-from app.schemas.donation import DonationDBShort, DonationDBFull, \
-    DonationCreate
+from app.schemas.donation import (
+    DonationDBShort,
+    DonationDBFull,
+    DonationCreate,
+)
 from app.services.investments import do_run_investments
 
 router = APIRouter()
@@ -15,10 +18,10 @@ router = APIRouter()
 @router.get(
     "/",
     response_model=list[DonationDBFull],
-    dependencies=[Depends(current_superuser)]
+    dependencies=[Depends(current_superuser)],
 )
 async def get_all_donations(
-        session: AsyncSession = Depends(get_async_session)
+    session: AsyncSession = Depends(get_async_session),
 ):
     """
     Retrieve all existing donations from the database. Available only for
@@ -31,14 +34,12 @@ async def get_all_donations(
 
 
 @router.post(
-    "/",
-    response_model=DonationDBShort,
-    response_model_exclude_none=True
+    "/", response_model=DonationDBShort, response_model_exclude_none=True
 )
 async def create_donation(
-        donation: DonationCreate,
-        user: User = Depends(current_user),
-        session: AsyncSession = Depends(get_async_session)
+    donation: DonationCreate,
+    user: User = Depends(current_user),
+    session: AsyncSession = Depends(get_async_session),
 ) -> Donation:
     """
     Create a new donation. Available only for authenticated users.
@@ -60,8 +61,8 @@ async def create_donation(
     response_model=list[DonationDBShort],
 )
 async def get_own_donations(
-        user: User = Depends(current_user),
-        session: AsyncSession = Depends(get_async_session)
+    user: User = Depends(current_user),
+    session: AsyncSession = Depends(get_async_session),
 ) -> list[Donation]:
     """
     Retrieve your own donations from the database. Available only for

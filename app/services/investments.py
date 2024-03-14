@@ -7,17 +7,19 @@ from app.models import CharityProject, Donation
 from crud.base import CRUDBase
 
 
-async def do_run_investments(obj_in: Union[CharityProject, Donation],
-                             crud_class: CRUDBase,
-                             session: AsyncSession) -> None:
+async def do_run_investments(
+    obj_in: Union[CharityProject, Donation],
+    crud_class: CRUDBase,
+    session: AsyncSession,
+) -> None:
     """
     Perform investment operations by distributing available funds to projects.
 
-    :param obj_in:  (Union[CharityProject, Donation]): The
+    :param obj_in: Union[CharityProject, Donation]: The
         project or donation object to invest in.
-    :param crud_class: (CRUDBase): The CRUD class for interacting
+    :param crud_class: CRUDBase: The CRUD class for interacting
         with the database.
-    :param session: (AsyncSession): The async session to use for
+    :param session: AsyncSession: The async session to use for
         the database operations.
     :returns: None
     """
@@ -41,7 +43,6 @@ def close_object(obj: Union[CharityProject, Donation]) -> None:
     :param obj: Incoming object of type CharityProject or Donation
     :returns: None
     """
-
-    obj.fully_invested = (obj.full_amount == obj.invested_amount)
+    obj.fully_invested = obj.full_amount == obj.invested_amount
     if obj.fully_invested:
         obj.close_date = datetime.now()
