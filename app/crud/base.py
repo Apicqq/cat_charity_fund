@@ -46,9 +46,7 @@ class CRUDBase(Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
             obj_in_data["user_id"] = user.id
         db_obj = self.model(**obj_in_data)
         session.add(db_obj)
-        await session.commit()
-        await session.refresh(db_obj)
-        return db_obj
+        return await self.push_to_db(db_obj, session)
 
     @staticmethod
     async def delete(
@@ -71,6 +69,13 @@ class CRUDBase(Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
             if field in update_data:
                 setattr(db_obj, field, update_data[field])
         session.add(db_obj)
+        return await CRUDBase.push_to_db(db_obj, session)
+
+    @staticmethod
+    async def push_to_db(
+            obj: Base,
+            session: AsyncSession
+    ) -> ModelType:
         await session.commit()
-        await session.refresh(db_obj)
-        return db_obj
+        await session.refresh(obj)
+        return obj
