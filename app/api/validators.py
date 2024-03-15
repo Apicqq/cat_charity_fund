@@ -6,7 +6,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from app.crud.charity_project import charity_crud
 from app.models import CharityProject
 from app.schemas.charity_project import CharityProjectUpdate
-from app.services.constants import ErrConstants as Err
+from app.core.constants import ErrConstants as Err
 
 
 async def check_name_is_busy(name: str, session: AsyncSession) -> None:

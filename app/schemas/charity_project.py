@@ -3,7 +3,7 @@ from typing import Optional
 
 from pydantic import BaseModel, Extra, Field, StrictInt, PositiveInt
 
-from app.services.constants import SchemaConstants as Sc
+from app.core.constants import SchemaConstants as Sc
 
 
 class CharityProjectBase(BaseModel):

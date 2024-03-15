@@ -3,7 +3,7 @@ from datetime import datetime
 from sqlalchemy import Column, Integer, Boolean, DateTime, CheckConstraint
 
 from app.core.base import Base
-from app.services.constants import DBConstants as Db
+from app.core.constants import DBConstants as Db
 
 
 class GenericFields(Base):

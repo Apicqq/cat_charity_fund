@@ -2,7 +2,7 @@ from typing import Optional
 
 from pydantic import BaseSettings, EmailStr
 
-from app.services.constants import ConfigConstants as ConfigConst
+from app.core.constants import ConfigConstants as ConfigConst
 
 
 class Settings(BaseSettings):

@@ -19,7 +19,7 @@ from app.core.config import settings
 from app.core.db import get_async_session
 from app.models.user import User
 from app.schemas.user import UserCreate
-from app.services.constants import ErrConstants as Err
+from app.core.constants import ErrConstants as Err
 
 bearer_transport = BearerTransport(tokenUrl="auth/jwt/login")
 

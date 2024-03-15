@@ -1,7 +1,7 @@
 from sqlalchemy import Column, String, Text
 
 from app.models.base import GenericFields
-from app.services.constants import DBConstants as Db
+from app.core.constants import DBConstants as Db
 
 
 class CharityProject(GenericFields):
