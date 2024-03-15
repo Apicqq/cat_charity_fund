@@ -43,7 +43,7 @@ class CRUDBase(Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
         db_obj = self.model(**obj_in_data)
         if (hasattr(db_obj, "invested_amount") and
                 db_obj.invested_amount is None):
-            setattr(db_obj, "invested_amount", 0)
+            db_obj.invested_amount = 0
         session.add(db_obj)
         if not skip_commit:
             return await self.push_to_db(db_obj, session)
