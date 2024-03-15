@@ -1,10 +1,10 @@
 from sqlalchemy import Column, String, Text
 
 from app.core.constants import DBConstants as Db
-from app.models.base import InvestmentDateFields
+from app.models.base import Investment
 
 
-class CharityProject(InvestmentDateFields):
+class CharityProject(Investment):
     name = Column(
         String(Db.CHARITY_PROJECT_NAME_DEFAULT.value),
         unique=True,

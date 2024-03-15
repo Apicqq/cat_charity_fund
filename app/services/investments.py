@@ -1,12 +1,12 @@
 from datetime import datetime
 
-from app.models.base import CommonTableFields
+from app.models.base import Investment
 
 
 def run_investments(
-    target: CommonTableFields,
-    sources: list[CommonTableFields],
-) -> list[CommonTableFields]:
+    target: Investment,
+    sources: list[Investment],
+) -> list[Investment]:
     """
     Perform investment operations by distributing available funds.
 
