@@ -6,7 +6,9 @@ from app.services.constants import DBConstants as Db
 
 class CharityProject(GenericFields):
     name = Column(
-        String(Db.CHARITY_PROJECT_NAME_DEFAULT), unique=True, nullable=False
+        String(Db.CHARITY_PROJECT_NAME_DEFAULT.value),
+        unique=True,
+        nullable=False
     )
     description = Column(Text, nullable=False)
 
