@@ -1,1 +1,1 @@
-from app.core.base import Donation, User, CharityProject # noqa
+from app.core.base import * # noqa
