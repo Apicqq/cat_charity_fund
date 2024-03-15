@@ -30,7 +30,7 @@ class ConfigConstants(str, Enum):
     DESCRIPTION = (
         "API for the Charity application QRKot cat support fund."
     )
-    DATABASE_URL = "sqlite+aiosqlite:///./QRKotFund.db"
+    DATABASE_URL = "sqlite+aiosqlite:///./QRKot.db"
     SECRET = "VeryDamnSecretSecret"
 
 
