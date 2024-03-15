@@ -15,7 +15,7 @@ from app.schemas.charity_project import (
     CharityProjectCreate,
     CharityProjectUpdate,
 )
-from app.services.investments import do_run_investments
+from app.services.investments import run_investments
 
 router = APIRouter()
 
@@ -45,8 +45,12 @@ async def create_project(
     Create a new charity project. Available only to superusers.
     """
     await check_name_is_busy(project.name, session)
-    new_project = await charity_crud.create(project, session)
-    await do_run_investments(new_project, donation_crud, session)
+    new_project = await charity_crud.create(project, session, skip_commit=True)
+    unclosed = await donation_crud.get_unclosed_objects(session)
+    if unclosed:
+        invested = run_investments(new_project, unclosed)
+        session.add_all(invested)
+    await charity_crud.push_to_db(new_project, session)
     return new_project
 
 
@@ -80,6 +84,12 @@ async def update_project(
     Update a charity project. Available only to superusers.
     """
     project = await check_eligible_for_patching(project_id, obj_in, session)
-    project = await charity_crud.patch(project, obj_in, session)
-    await do_run_investments(project, donation_crud, session)
+    project = await charity_crud.patch(
+        project, obj_in, session, skip_commit=True
+    )
+    unclosed = await donation_crud.get_unclosed_objects(session)
+    if unclosed:
+        invested = run_investments(project, unclosed)
+        session.add_all(invested)
+    await charity_crud.push_to_db(project, session)
     return project

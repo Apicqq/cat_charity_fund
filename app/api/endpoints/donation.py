@@ -10,7 +10,7 @@ from app.schemas.donation import (
     DonationDBFull,
     DonationCreate,
 )
-from app.services.investments import do_run_investments
+from app.services.investments import run_investments
 
 router = APIRouter()
 
@@ -42,7 +42,11 @@ async def create_donation(
     Create a new donation. Available only for authenticated users.
     """
     donation = await donation_crud.create(donation, session, user)
-    await do_run_investments(donation, charity_crud, session)
+    unclosed = await charity_crud.get_unclosed_objects(session)
+    if unclosed:
+        invested = run_investments(donation, unclosed)
+        session.add_all(invested)
+    await donation_crud.push_to_db(donation, session)
     return donation
 
 
