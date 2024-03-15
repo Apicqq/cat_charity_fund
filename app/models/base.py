@@ -10,7 +10,7 @@ class GenericFields(Base):
     __abstract__ = True
 
     full_amount = Column(Integer)
-    invested_amount = Column(Integer, default=Db.INVESTED_AMOUNT_DEFAULT)
+    invested_amount = Column(Integer, default=Db.INVESTED_AMOUNT_DEFAULT.value)
     fully_invested = Column(Boolean, default=False)
     create_date = Column(DateTime, default=datetime.now)
     close_date = Column(DateTime)
@@ -18,10 +18,10 @@ class GenericFields(Base):
     __table__args__ = (
         CheckConstraint(
             "full_amount > 0",
-            name=Db.INVESTMENT_CONSTRAINT),
+            name=Db.INVESTMENT_CONSTRAINT.value),
         CheckConstraint(
             "invested_amount <= full_amount",
-            name=Db.INVESTMENT_LT_FUL_AMOUNT_CONSTRAINT
+            name=Db.INVESTMENT_LT_FUL_AMOUNT_CONSTRAINT.value
         )
     )
 
