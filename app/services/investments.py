@@ -1,48 +1,35 @@
 from datetime import datetime
-from typing import Union
 
-from sqlalchemy.ext.asyncio import AsyncSession
-
-from app.models import CharityProject, Donation
-from crud.base import CRUDBase
+from app.core.base import Base
 
 
-async def do_run_investments(
-    obj_in: Union[CharityProject, Donation],
-    crud_class: CRUDBase,
-    session: AsyncSession,
-) -> None:
+def run_investments(
+        target: Base,
+        sources: list[Base],
+) -> set[Base]:
     """
-    Perform investment operations by distributing available funds to projects.
+    Perform investment operations by distributing available funds.
 
-    :param obj_in: Union[CharityProject, Donation]: The
+    :param target: Base: The
         project or donation object to invest in.
-    :param crud_class: CRUDBase: The CRUD class for interacting
-        with the database.
-    :param session: AsyncSession: The async session to use for
-        the database operations.
-    :returns: None
+    :param sources: list[Base]: The
+        list of project or donation objects to distribute funds from.
+    :returns: set[Base]: The set of project or donation objects.
     """
-    receptions = await crud_class.get_unclosed_objects(session)
-    for reception in receptions:
-        available_to_invest = obj_in.full_amount - obj_in.invested_amount
-        if not available_to_invest:
+    changed_db_objects = set()
+    if target.invested_amount is None:
+        target.invested_amount = 0
+    for source in sources:
+        investment_amount = min(
+            source.full_amount - source.invested_amount,
+            target.full_amount - target.invested_amount
+        )
+        for changed_object in (source, target):
+            changed_object.invested_amount += investment_amount
+            if changed_object.full_amount == changed_object.invested_amount:
+                changed_object.fully_invested = True
+                changed_object.close_date = datetime.now()
+        changed_db_objects.add(source)
+        if target.fully_invested:
             break
-        available = reception.full_amount - reception.invested_amount
-        to_add = min(available_to_invest, available)
-        reception.invested_amount += to_add
-        obj_in.invested_amount += to_add
-        close_object(reception)
-    close_object(obj_in)
-    await crud_class.push_to_db(obj_in, session)
-
-
-def close_object(obj: Union[CharityProject, Donation]) -> None:
-    """
-    Close object if fully invested.
-    :param obj: Incoming object of type CharityProject or Donation
-    :returns: None
-    """
-    obj.fully_invested = obj.full_amount == obj.invested_amount
-    if obj.fully_invested:
-        obj.close_date = datetime.now()
+    return changed_db_objects
