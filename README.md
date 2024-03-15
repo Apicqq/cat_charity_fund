@@ -79,14 +79,13 @@ uvicorn app.main:app
 
 
 Для документации Swagger:
-```
-https://127.0.0.1:8000/swagger
-```
+
+[https://127.0.0.1:8000/swagger](https://127.0.0.1:8000/swagger)
+
 
 Для документации ReDoc:
-```
-https://127.0.0.1:8000/redoc
-```
+
+[https://127.0.0.1:8000/redoc](https://127.0.0.1:8000/redoc)
 
 
 Автор проекта: [Никита Смыков](https://github.com/Apicqq)
