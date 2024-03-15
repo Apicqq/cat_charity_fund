@@ -10,11 +10,11 @@ def run_investments(
     """
     Perform investment operations by distributing available funds.
 
-    :param target: Base: The
+    :param target: Investment: The
         project or donation object to invest in.
-    :param sources: list[Base]: The
+    :param sources: list[Investment]: The
         list of project or donation objects to distribute funds from.
-    :returns: set[Base]: The set of project or donation objects.
+    :returns: set[Investment]: The set of project or donation objects.
     """
     changed = []
     for source in sources:
