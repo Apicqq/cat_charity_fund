@@ -55,9 +55,9 @@ class CRUDBase(Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
     @staticmethod
     async def patch(
         db_obj: ModelType,
-            obj_in: UpdateSchemaType,
-            session: AsyncSession,
-            skip_commit: bool = False
+        obj_in: UpdateSchemaType,
+        session: AsyncSession,
+        skip_commit: bool = False,
     ) -> ModelType:
         obj_data = jsonable_encoder(db_obj)
         update_data = obj_in.dict(exclude_unset=True)

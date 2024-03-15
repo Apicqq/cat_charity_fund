@@ -1,1 +1,1 @@
-from app.core.base import * # noqa
+from app.core.base import *  # noqa

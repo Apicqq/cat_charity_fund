@@ -21,15 +21,14 @@ class DBConstants(Enum):
     INVESTED_AMOUNT_DEFAULT = 0
     CHARITY_PROJECT_NAME_DEFAULT = 100
     INVESTMENT_CONSTRAINT = "Initial investment value must be greater than 0"
-    INVESTMENT_LT_FUL_AMOUNT_CONSTRAINT = ("Invested amount must be less "
-                                           "than or equal to full amount")
+    INVESTMENT_LT_FUL_AMOUNT_CONSTRAINT = (
+        "Invested amount must be less " "than or equal to full amount"
+    )
 
 
 class ConfigConstants(str, Enum):
     APP_TITLE = "QRKot"
-    DESCRIPTION = (
-        "API for the Charity application QRKot cat support fund."
-    )
+    DESCRIPTION = "API for the Charity application QRKot cat support fund."
     DATABASE_URL = "sqlite+aiosqlite:///./QRKot.db"
     SECRET = "VeryDamnSecretSecret"
 

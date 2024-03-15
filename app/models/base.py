@@ -17,12 +17,12 @@ class GenericFields(Base):
 
     __table__args__ = (
         CheckConstraint(
-            "full_amount > 0",
-            name=Db.INVESTMENT_CONSTRAINT.value),
+            "full_amount > 0", name=Db.INVESTMENT_CONSTRAINT.value
+        ),
         CheckConstraint(
             "invested_amount <= full_amount",
-            name=Db.INVESTMENT_LT_FUL_AMOUNT_CONSTRAINT.value
-        )
+            name=Db.INVESTMENT_LT_FUL_AMOUNT_CONSTRAINT.value,
+        ),
     )
 
     def __repr__(self):

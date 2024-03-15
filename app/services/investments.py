@@ -4,8 +4,8 @@ from app.core.base import Base
 
 
 def run_investments(
-        target: Base,
-        sources: list[Base],
+    target: Base,
+    sources: list[Base],
 ) -> set[Base]:
     """
     Perform investment operations by distributing available funds.
@@ -22,7 +22,7 @@ def run_investments(
     for source in sources:
         investment_amount = min(
             source.full_amount - source.invested_amount,
-            target.full_amount - target.invested_amount
+            target.full_amount - target.invested_amount,
         )
         for changed_object in (source, target):
             changed_object.invested_amount += investment_amount

@@ -8,7 +8,7 @@ class CharityProject(GenericFields):
     name = Column(
         String(Db.CHARITY_PROJECT_NAME_DEFAULT.value),
         unique=True,
-        nullable=False
+        nullable=False,
     )
     description = Column(Text, nullable=False)
 
