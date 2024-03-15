@@ -45,7 +45,7 @@ class CRUDBase(Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
         if not skip_commit:
             return await self.push_to_db(db_obj, session)
         else:
-            pass
+            return db_obj
 
     @staticmethod
     async def delete(db_obj: ModelType, session: AsyncSession):
