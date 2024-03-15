@@ -44,8 +44,7 @@ class CRUDBase(Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
         session.add(db_obj)
         if not skip_commit:
             return await self.push_to_db(db_obj, session)
-        else:
-            return db_obj
+        return db_obj
 
     @staticmethod
     async def delete(db_obj: ModelType, session: AsyncSession):
@@ -55,7 +54,10 @@ class CRUDBase(Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
 
     @staticmethod
     async def patch(
-        db_obj: ModelType, obj_in: UpdateSchemaType, session: AsyncSession
+        db_obj: ModelType,
+            obj_in: UpdateSchemaType,
+            session: AsyncSession,
+            skip_commit: bool = False
     ) -> ModelType:
         obj_data = jsonable_encoder(db_obj)
         update_data = obj_in.dict(exclude_unset=True)
@@ -63,7 +65,9 @@ class CRUDBase(Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
             if field in update_data:
                 setattr(db_obj, field, update_data[field])
         session.add(db_obj)
-        return await CRUDBase.push_to_db(db_obj, session)
+        if not skip_commit:
+            return await CRUDBase.push_to_db(db_obj, session)
+        return db_obj
 
     @staticmethod
     async def push_to_db(obj: Base, session: AsyncSession) -> ModelType:
