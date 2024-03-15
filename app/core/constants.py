@@ -24,7 +24,7 @@ class DBConstants(Enum):
     INVESTMENT_LT_FUL_AMOUNT_CONSTRAINT = (
         "Invested amount must be less than or equal to full amount"
     )
-    INVESTED_AMOUNT_GE_ZERO = "Invested amount must be a positive number"
+    INVESTED_AMOUNT_GE_ZERO = "Invested amount must not be a negative number"
 
 
 class ConfigConstants(str, Enum):
