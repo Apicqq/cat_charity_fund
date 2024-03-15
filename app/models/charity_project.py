@@ -1,10 +1,10 @@
 from sqlalchemy import Column, String, Text
 
-from app.models.base import GenericFields
 from app.core.constants import DBConstants as Db
+from app.models.base import CommonTableFields
 
 
-class CharityProject(GenericFields):
+class CharityProject(CommonTableFields):
     name = Column(
         String(Db.CHARITY_PROJECT_NAME_DEFAULT.value),
         unique=True,
@@ -13,4 +13,5 @@ class CharityProject(GenericFields):
     description = Column(Text, nullable=False)
 
     def __repr__(self):
-        return super().__repr__()
+        return ', '.join((super().__repr__(), f"name: {self.name}",
+                          f"description: {self.description}"))
