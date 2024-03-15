@@ -1,12 +1,12 @@
 from datetime import datetime
 
-from app.core.base import Base
+from app.models.base import CommonTableFields
 
 
 def run_investments(
-    target: Base,
-    sources: list[Base],
-) -> set[Base]:
+    target: CommonTableFields,
+    sources: list[CommonTableFields],
+) -> list[CommonTableFields]:
     """
     Perform investment operations by distributing available funds.
 
@@ -16,9 +16,7 @@ def run_investments(
         list of project or donation objects to distribute funds from.
     :returns: set[Base]: The set of project or donation objects.
     """
-    changed_db_objects = set()
-    if target.invested_amount is None:
-        target.invested_amount = 0
+    changed = []
     for source in sources:
         investment_amount = min(
             source.full_amount - source.invested_amount,
@@ -29,7 +27,7 @@ def run_investments(
             if changed_object.full_amount == changed_object.invested_amount:
                 changed_object.fully_invested = True
                 changed_object.close_date = datetime.now()
-        changed_db_objects.add(source)
+        changed.append(source)
         if target.fully_invested:
             break
-    return changed_db_objects
+    return changed
