@@ -75,7 +75,7 @@ uvicorn app.main:app
 
 Сервис QRKot будет доступен по адресу:  [http://127.0.0.1:8000](http://127.0.0.1:8000)
 
-Документация доступна в файле [openapi.yml](https://github.com/Apicqq/cat_charity_fund/blob/master/openapi.yml), а также по следующим адресам:
+Документация доступна в файле [openapi.json](https://github.com/Apicqq/cat_charity_fund/blob/master/openapi.json), а также по следующим адресам:
 
 
 Для документации Swagger:
