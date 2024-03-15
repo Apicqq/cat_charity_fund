@@ -6,7 +6,7 @@ from app.core.base import Base
 from app.core.constants import DBConstants as Db
 
 
-class GenericFields(Base):
+class CommonTableFields(Base):
     __abstract__ = True
 
     full_amount = Column(Integer)
@@ -23,7 +23,14 @@ class GenericFields(Base):
             "invested_amount <= full_amount",
             name=Db.INVESTMENT_LT_FUL_AMOUNT_CONSTRAINT.value,
         ),
+        CheckConstraint(
+            "invested_amount > 0", name=Db.INVESTED_AMOUNT_GT_ZERO.value
+        )
     )
 
     def __repr__(self):
-        return f"{self.__class__.__name__}, id={self.id}"
+        return (f"{self.__class__.__name__} #{self.id}: "
+                f"Current investment amount is: {self.invested_amount}"
+                f"/{self.full_amount}. Created at: {self.create_date}, "
+                f"closed at: {self.close_date}, "
+                f"fully_invested: {self.fully_invested}")
